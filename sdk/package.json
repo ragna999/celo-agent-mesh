@@ -1,0 +1,22 @@
+{
+  "name": "@celo-agent-mesh/sdk",
+  "version": "0.1.0",
+  "description": "JavaScript SDK for Celo Agent Mesh — agent discovery, payments, and messaging on Celo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --forceExit --detectOpenHandles 2>/dev/null || node test/sdk.test.js"
+  },
+  "keywords": [
+    "celo",
+    "ai-agents",
+    "mesh",
+    "payments",
+    "messaging",
+    "registry"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.16.0"
+  }
+}

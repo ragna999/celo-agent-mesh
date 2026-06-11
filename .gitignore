@@ -1,0 +1,12 @@
+node_modules/
+.env
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+.hermes-tmp.*/
+
+.vercel
+.env.backup
+.env.*

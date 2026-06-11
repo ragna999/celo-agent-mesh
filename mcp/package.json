@@ -1,0 +1,22 @@
+{
+  "name": "@celo-agent-mesh/mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Celo Agent Mesh — AI agent tools for discovery, payments, and messaging on Celo",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "celo-agent-mesh": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "keywords": ["mcp", "celo", "ai-agents", "mesh", "tools"],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@celo-agent-mesh/sdk": "file:../sdk",
+    "ethers": "^6.9.0",
+    "zod": "^3.22.0"
+  }
+}

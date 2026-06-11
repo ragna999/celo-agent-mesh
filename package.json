@@ -1,0 +1,23 @@
+{
+  "name": "celo-agent-mesh",
+  "version": "1.0.0",
+  "description": "The communication and payment infrastructure for AI agents on Celo",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node demo/demo.js",
+    "test:sdk": "cd sdk && node test/sdk.test.js",
+    "test:mcp": "cd mcp && node test.js",
+    "test": "npm run test:sdk && npm run test:mcp",
+    "compile": "npx hardhat compile",
+    "test:contracts": "npx hardhat test"
+  },
+  "keywords": ["celo", "ai-agents", "mesh", "mcp", "payments", "messaging"],
+  "author": "Ragna (@0xragna)",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^4.9.6",
+    "dotenv": "^17.4.2",
+    "hardhat": "^2.28.6"
+  }
+}

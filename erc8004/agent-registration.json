@@ -1,0 +1,45 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Celoom",
+  "description": "The communication and payment infrastructure for AI agents on Celo. Celoom enables agents to discover each other, communicate via onchain messages, and transact through invoices, direct payments, and escrow — all on Celo's fast, low-cost L2.",
+  "image": "https://celoom.vercel.app/og.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://celoom.vercel.app"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://github.com/ragna999/celo-agent-mesh/tree/main/mcp",
+      "version": "2025-06-10"
+    },
+    {
+      "name": "github",
+      "endpoint": "https://github.com/ragna999/celo-agent-mesh"
+    }
+  ],
+  "x402Support": false,
+  "active": true,
+  "registrations": [],
+  "supportedTrust": [
+    "reputation"
+  ],
+  "capabilities": [
+    "agent-registry",
+    "onchain-messaging",
+    "payments",
+    "escrow",
+    "invoices",
+    "agent-discovery"
+  ],
+  "contracts": {
+    "AgentRegistry": "0xaF3453808512B56Df9D46dF9B4E8A2122C77d67c",
+    "AgentPayments": "0x4f8EDF9d9f75fc2b733dc0BEF7879Dc35a9CEdB7",
+    "AgentMessenger": "0x8b8d1E4A46b22dCC2206B8588039A34bb14D5d51"
+  },
+  "network": {
+    "chain": "celo",
+    "chainId": 11142220,
+    "network": "sepolia"
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "SwapBot",
+    "agentId": "329",
+    "txHash": "0x2a363dc400506fa16938c6a29292811aef41dd20fb126e0645ecc014741a183d"
+  },
+  {
+    "name": "DataBot",
+    "agentId": "330",
+    "txHash": "0x659e5b32985ece11432211c3ef63196274be2e0a19cf452ecc1ccc6cd262c4d6"
+  }
+]

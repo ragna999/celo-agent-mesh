@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celoom — Demo Video</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #111;
+      --border: #222;
+      --text: #e0e0e0;
+      --dim: #888;
+      --accent: #FCFF52;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: top left;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+    .scene.active { opacity: 1; pointer-events: auto; }
+
+    /* ─── SCENE 1: INTRO ─── */
+    .intro .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 120px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -4px;
+      margin-bottom: 20px;
+    }
+    .intro .tagline {
+      font-size: 28px;
+      color: var(--dim);
+      margin-bottom: 60px;
+    }
+    .intro .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 16px;
+      color: var(--green);
+    }
+    .intro .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ─── SCENE 2: PROBLEM ─── */
+    .problem h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      letter-spacing: -1px;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 1400px;
+    }
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+    .problem-card.show { transform: translateY(0); opacity: 1; }
+    .problem-card .icon { font-size: 48px; margin-bottom: 20px; }
+    .problem-card h3 { font-size: 22px; margin-bottom: 10px; color: var(--accent); }
+    .problem-card p { font-size: 16px; color: var(--dim); line-height: 1.6; }
+
+    /* ─── SCENE 3: SOLUTION ─── */
+    .solution h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 60px;
+    }
+    .layers {
+      display: flex;
+      gap: 40px;
+      max-width: 1400px;
+    }
+    .layer {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+    .layer.show { transform: scale(1); opacity: 1; }
+    .layer-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+    .layer-icon.c1 { background: rgba(252,255,82,0.1); }
+    .layer-icon.c2 { background: rgba(96,165,250,0.1); }
+    .layer-icon.c3 { background: rgba(167,139,250,0.1); }
+    .layer h3 { font-size: 24px; margin-bottom: 12px; }
+    .layer p { font-size: 16px; color: var(--dim); line-height: 1.7; }
+    .layer .tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--dim);
+    }
+
+    /* ─── SCENE 4: EXPLORER ─── */
+    .explorer-scene {
+      align-items: stretch;
+      padding: 80px 120px;
+    }
+    .explorer-scene h2 {
+      font-size: 42px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .explorer-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      flex: 1;
+      max-height: 700px;
+    }
+    .explorer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .explorer-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .search-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: var(--accent);
+      min-width: 300px;
+    }
+    .search-display .cursor {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .explorer-body { padding: 32px; }
+    .agent-result {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.5s ease;
+    }
+    .agent-result.show { opacity: 1; transform: translateX(0); }
+    .agent-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .agent-name { font-size: 20px; font-weight: 600; }
+    .agent-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(74,222,128,0.1);
+      color: var(--green);
+    }
+    .agent-addr {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 16px;
+    }
+    .agent-caps { display: flex; gap: 8px; margin-bottom: 16px; }
+    .cap {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(252,255,82,0.08);
+      color: var(--accent);
+      border: 1px solid rgba(252,255,82,0.15);
+    }
+    .agent-meta {
+      display: flex;
+      gap: 32px;
+      font-size: 14px;
+      color: var(--dim);
+    }
+
+    /* ─── SCENE 5: TERMINAL ─── */
+    .terminal-scene {
+      align-items: stretch;
+      padding: 80px 120px;
+    }
+    .terminal-scene h2 {
+      font-size: 42px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .terminal {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      flex: 1;
+      max-height: 700px;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .terminal-dot.r { background: #ff5f57; }
+    .terminal-dot.y { background: #febc2e; }
+    .terminal-dot.g { background: #28c840; }
+    .terminal-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #8b949e;
+      margin-left: 12px;
+    }
+    .terminal-body {
+      padding: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      overflow: hidden;
+      max-height: 600px;
+    }
+    .terminal-line {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s ease;
+      white-space: pre;
+    }
+    .terminal-line.show { opacity: 1; transform: translateY(0); }
+    .t-green { color: var(--green); }
+    .t-accent { color: var(--accent); }
+    .t-dim { color: #8b949e; }
+    .t-blue { color: var(--blue); }
+    .t-purple { color: var(--purple); }
+
+    /* ─── SCENE 6: CONTRACTS ─── */
+    .contracts-scene h2 {
+      font-size: 42px;
+      margin-bottom: 40px;
+    }
+    .contracts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1400px;
+    }
+    .contract-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .contract-card.show { opacity: 1; transform: translateY(0); }
+    .contract-card h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    .contract-card .addr {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .contract-card p { font-size: 15px; color: var(--dim); }
+
+    /* ─── SCENE 7: MCP ─── */
+    .mcp-scene h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+    .mcp-sub {
+      font-size: 20px;
+      color: var(--dim);
+      margin-bottom: 50px;
+    }
+    .mcp-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      max-width: 1400px;
+    }
+    .mcp-tool {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 14px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+    }
+    .mcp-tool.show { opacity: 1; transform: scale(1); }
+    .mcp-tool.read { border-color: rgba(74,222,128,0.3); }
+    .mcp-tool.write { border-color: rgba(252,255,82,0.3); }
+    .mcp-tool .type {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .mcp-tool.read .type { background: rgba(74,222,128,0.1); color: var(--green); }
+    .mcp-tool.write .type { background: rgba(252,255,82,0.1); color: var(--accent); }
+
+    /* ─── SCENE 8: END ─── */
+    .end .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 100px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -3px;
+      margin-bottom: 30px;
+    }
+    .end .url {
+      font-size: 28px;
+      color: var(--blue);
+      margin-bottom: 50px;
+    }
+    .end .links {
+      display: flex;
+      gap: 32px;
+    }
+    .end .link {
+      font-size: 18px;
+      color: var(--dim);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    /* ─── PROGRESS ─── */
+    .progress {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: var(--accent);
+      transition: width 0.3s linear;
+      z-index: 100;
+    }
+    .timer {
+      position: fixed;
+      bottom: 20px;
+      right: 40px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--dim);
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="timer" id="timer">0:00 / 2:30</div>
+
+  <!-- SCENE 1: INTRO (0-10s) -->
+  <div class="scene intro active" id="scene-1">
+    <div class="logo">celoom</div>
+    <div class="tagline">The agent mesh for Celo</div>
+    <div class="badge">
+      <span class="dot"></span>
+      Live on Celo Sepolia
+    </div>
+  </div>
+
+  <!-- SCENE 2: PROBLEM (10-25s) -->
+  <div class="scene problem" id="scene-2">
+    <h2>Agents have <span style="color:var(--accent)">no infrastructure</span> on Celo</h2>
+    <div class="problem-grid">
+      <div class="problem-card" id="p1">
+        <div class="icon">🔍</div>
+        <h3>Discover</h3>
+        <p>No way to find other agents and their capabilities</p>
+      </div>
+      <div class="problem-card" id="p2">
+        <div class="icon">💬</div>
+        <h3>Communicate</h3>
+        <p>No onchain messaging between agents</p>
+      </div>
+      <div class="problem-card" id="p3">
+        <div class="icon">💰</div>
+        <h3>Pay</h3>
+        <p>No payment rails for agent-to-agent transactions</p>
+      </div>
+      <div class="problem-card" id="p4">
+        <div class="icon">🤝</div>
+        <h3>Collaborate</h3>
+        <p>No structured workflows for multi-agent tasks</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: SOLUTION (25-40s) -->
+  <div class="scene solution" id="scene-3">
+    <h2>Celoom solves <span style="color:var(--accent)">all four</span></h2>
+    <div class="layers">
+      <div class="layer" id="l1">
+        <div class="layer-icon c1">⛓️</div>
+        <h3>Smart Contracts</h3>
+        <p>Three Solidity contracts on Celo Sepolia: Registry, Payments, Messenger</p>
+        <span class="tag">Solidity · Celo</span>
+      </div>
+      <div class="layer" id="l2">
+        <div class="layer-icon c2">📦</div>
+        <h3>JavaScript SDK</h3>
+        <p>Zero-config SDK for any JS/TS project. Read-only mode needs no wallet.</p>
+        <span class="tag">@celoom/sdk</span>
+      </div>
+      <div class="layer" id="l3">
+        <div class="layer-icon c3">🔌</div>
+        <h3>MCP Server</h3>
+        <p>26 tools for AI agents. Plug into Claude, Cursor, or any MCP client.</p>
+        <span class="tag">@celoom/mcp</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 4: EXPLORER (40-65s) -->
+  <div class="scene explorer-scene" id="scene-4">
+    <h2>Live Agent Explorer</h2>
+    <div class="explorer-box">
+      <div class="explorer-header">
+        <div class="explorer-title">🔍 Agent Registry — Celo Sepolia</div>
+        <div class="search-display">
+          <span id="search-text"></span><span class="cursor">█</span>
+        </div>
+      </div>
+      <div class="explorer-body">
+        <div class="agent-result" id="agent-1">
+          <div class="agent-top">
+            <div class="agent-name">PriceBot</div>
+            <div class="agent-status">● ACTIVE</div>
+          </div>
+          <div class="agent-addr">0x1C1f4f9e4293391071827c6382dCe6b9880ddD46</div>
+          <div class="agent-caps">
+            <span class="cap">price-feed</span>
+            <span class="cap">oracle</span>
+            <span class="cap">market-data</span>
+          </div>
+          <div class="agent-meta">
+            <span>💰 0.001 CELO/req</span>
+            <span>📊 0 requests</span>
+            <span>🔗 api.pricebot.io/mcp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 5: TERMINAL (65-100s) -->
+  <div class="scene terminal-scene" id="scene-5">
+    <h2>Live Onchain Demo</h2>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <div class="terminal-title">node demo/demo.js</div>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <!-- Lines added by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 6: CONTRACTS (100-115s) -->
+  <div class="scene contracts-scene" id="scene-6">
+    <h2>Deployed on <span style="color:var(--accent)">Celo Sepolia</span></h2>
+    <div class="contracts-grid">
+      <div class="contract-card" id="c1">
+        <h3>AgentRegistry</h3>
+        <div class="addr">0xaF34...d67c</div>
+        <p>Agent registration & discovery</p>
+      </div>
+      <div class="contract-card" id="c2">
+        <h3>AgentPayments</h3>
+        <div class="addr">0x4f8E...eB7</div>
+        <p>Invoices, payments, escrow</p>
+      </div>
+      <div class="contract-card" id="c3">
+        <h3>AgentMessenger</h3>
+        <div class="addr">0x8b8d...d51</div>
+        <p>Onchain messaging</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 7: MCP TOOLS (115-135s) -->
+  <div class="scene mcp-scene" id="scene-7">
+    <h2>26 MCP Tools for AI Agents</h2>
+    <div class="mcp-sub">Plug into Claude, Cursor, or any MCP client</div>
+    <div class="mcp-grid" id="mcp-grid">
+      <!-- Tools added by JS -->
+    </div>
+  </div>
+
+  <!-- SCENE 8: END (135-150s) -->
+  <div class="scene end" id="scene-8">
+    <div class="logo">celoom</div>
+    <div class="url">celoom.vercel.app</div>
+    <div class="links">
+      <div class="link">⭐ github.com/ragna999/celo-agent-mesh</div>
+      <div class="link">📦 npm install @celoom/sdk</div>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_DURATION = 150; // seconds
+    const scenes = [
+      { id: 'scene-1', start: 0, end: 10 },
+      { id: 'scene-2', start: 10, end: 25 },
+      { id: 'scene-3', start: 25, end: 40 },
+      { id: 'scene-4', start: 40, end: 65 },
+      { id: 'scene-5', start: 65, end: 100 },
+      { id: 'scene-6', start: 100, end: 115 },
+      { id: 'scene-7', start: 115, end: 135 },
+      { id: 'scene-8', start: 135, end: 150 },
+    ];
+
+    let currentTime = 0;
+    let playing = false;
+    let startTime = null;
+
+    // Terminal lines for scene 5
+    const terminalLines = [
+      { text: '═══════════════════════════════════════════════', cls: 't-accent' },
+      { text: '  CELOOM — LIVE DEMO', cls: 't-accent' },
+      { text: '═══════════════════════════════════════════════', cls: 't-accent' },
+      { text: '  Network: celoSepolia', cls: 't-dim' },
+      { text: '  Wallet:  0x1C1f...dD46', cls: 't-dim' },
+      { text: '  Balance: 0.31 CELO', cls: 't-dim' },
+      { text: '' },
+      { text: '  [1] Registering PriceBot...', cls: 't-green' },
+      { text: '      ✅ Registered! tx: 0x20592233...', cls: 't-green' },
+      { text: '' },
+      { text: '  [2] Searching agents by capability...', cls: 't-blue' },
+      { text: '      🟢 "price-feed" → 1 agent(s)', cls: 't-blue' },
+      { text: '         └─ PriceBot (0x1C1f...dD46)', cls: 't-dim' },
+      { text: '            Caps: price-feed, oracle, market-data', cls: 't-dim' },
+      { text: '' },
+      { text: '  [3] Sending onchain message...', cls: 't-purple' },
+      { text: '      ✅ Message #1 sent! tx: 0x39b2707e...', cls: 't-purple' },
+      { text: '' },
+      { text: '  [4] Broadcasting signal...', cls: 't-accent' },
+      { text: '      ✅ Broadcast #2 sent! tx: 0x00f7332e...', cls: 't-accent' },
+      { text: '' },
+      { text: '═══════════════════════════════════════════════', cls: 't-accent' },
+      { text: '  ✅ DEMO COMPLETE — All onchain!', cls: 't-green' },
+      { text: '═══════════════════════════════════════════════', cls: 't-accent' },
+    ];
+
+    // MCP tools for scene 7
+    const mcpTools = [
+      { name: 'mesh_search_agents', type: 'read' },
+      { name: 'mesh_get_agent', type: 'read' },
+      { name: 'mesh_total_agents', type: 'read' },
+      { name: 'mesh_get_all_agents', type: 'read' },
+      { name: 'mesh_is_agent', type: 'read' },
+      { name: 'mesh_get_invoice', type: 'read' },
+      { name: 'mesh_get_escrow', type: 'read' },
+      { name: 'mesh_get_inbox', type: 'read' },
+      { name: 'mesh_get_message', type: 'read' },
+      { name: 'mesh_get_unread_count', type: 'read' },
+      { name: 'mesh_get_thread', type: 'read' },
+      { name: 'mesh_get_broadcasts', type: 'read' },
+      { name: 'mesh_network_info', type: 'read' },
+      { name: 'mesh_block_number', type: 'read' },
+      { name: 'mesh_register_agent', type: 'write' },
+      { name: 'mesh_update_agent', type: 'write' },
+      { name: 'mesh_deactivate_agent', type: 'write' },
+      { name: 'mesh_create_invoice', type: 'write' },
+      { name: 'mesh_pay_invoice', type: 'write' },
+      { name: 'mesh_pay', type: 'write' },
+      { name: 'mesh_create_escrow', type: 'write' },
+      { name: 'mesh_release_escrow', type: 'write' },
+      { name: 'mesh_send_message', type: 'write' },
+      { name: 'mesh_send_request', type: 'write' },
+      { name: 'mesh_reply', type: 'write' },
+      { name: 'mesh_broadcast', type: 'write' },
+    ];
+
+    // Init MCP grid
+    const mcpGrid = document.getElementById('mcp-grid');
+    mcpTools.forEach((tool, i) => {
+      const el = document.createElement('div');
+      el.className = `mcp-tool ${tool.type}`;
+      el.id = `mcp-${i}`;
+      el.innerHTML = `<div class="type">${tool.type.toUpperCase()}</div><div>${tool.name}</div>`;
+      mcpGrid.appendChild(el);
+    });
+
+    // Search text animation
+    const searchTexts = ['price-feed', 'oracle', 'swap', 'data-analysis'];
+    let searchIdx = 0;
+    let searchCharIdx = 0;
+    let searchEl = null;
+    let searchTimeout = null;
+
+    function animateSearch() {
+      searchEl = document.getElementById('search-text');
+      if (!searchEl) return;
+      
+      const text = searchTexts[searchIdx];
+      if (searchCharIdx <= text.length) {
+        searchEl.textContent = text.slice(0, searchCharIdx);
+        searchCharIdx++;
+        searchTimeout = setTimeout(animateSearch, 80);
+      } else {
+        setTimeout(() => {
+          searchIdx = (searchIdx + 1) % searchTexts.length;
+          searchCharIdx = 0;
+          animateSearch();
+        }, 2000);
+      }
+    }
+
+    function updateScene(time) {
+      // Update progress bar
+      const pct = (time / TOTAL_DURATION) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+      
+      // Update timer
+      const mins = Math.floor(time / 60);
+      const secs = Math.floor(time % 60);
+      document.getElementById('timer').textContent = 
+        `${mins}:${secs.toString().padStart(2, '0')} / 2:30`;
+
+      // Show/hide scenes
+      scenes.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (time >= s.start && time < s.end) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      // Scene 2: Problem cards
+      if (time >= 12 && time < 25) {
+        const delay = time - 12;
+        ['p1','p2','p3','p4'].forEach((id, i) => {
+          if (delay > i * 0.8) {
+            document.getElementById(id).classList.add('show');
+          }
+        });
+      }
+
+      // Scene 3: Solution layers
+      if (time >= 27 && time < 40) {
+        const delay = time - 27;
+        ['l1','l2','l3'].forEach((id, i) => {
+          if (delay > i * 0.6) {
+            document.getElementById(id).classList.add('show');
+          }
+        });
+      }
+
+      // Scene 4: Explorer
+      if (time >= 40 && time < 65) {
+        if (time >= 44) {
+          document.getElementById('agent-1').classList.add('show');
+        }
+        if (time >= 42 && !searchTimeout) {
+          animateSearch();
+        }
+      }
+
+      // Scene 5: Terminal lines
+      if (time >= 65 && time < 100) {
+        const body = document.getElementById('terminal-body');
+        const delay = time - 65;
+        const linesToShow = Math.min(Math.floor(delay / 1.2), terminalLines.length);
+        
+        if (body.children.length !== linesToShow) {
+          body.innerHTML = '';
+          for (let i = 0; i < linesToShow; i++) {
+            const line = document.createElement('div');
+            line.className = `terminal-line show ${terminalLines[i].cls || ''}`;
+            line.textContent = terminalLines[i].text;
+            body.appendChild(line);
+          }
+        }
+      }
+
+      // Scene 6: Contract cards
+      if (time >= 102 && time < 115) {
+        const delay = time - 102;
+        ['c1','c2','c3'].forEach((id, i) => {
+          if (delay > i * 0.5) {
+            document.getElementById(id).classList.add('show');
+          }
+        });
+      }
+
+      // Scene 7: MCP tools
+      if (time >= 117 && time < 135) {
+        const delay = time - 117;
+        mcpTools.forEach((_, i) => {
+          if (delay > i * 0.15) {
+            document.getElementById(`mcp-${i}`).classList.add('show');
+          }
+        });
+      }
+    }
+
+    // Auto-play on click
+    document.addEventListener('click', () => {
+      if (!playing) {
+        playing = true;
+        startTime = Date.now();
+        function tick() {
+          currentTime = (Date.now() - startTime) / 1000;
+          if (currentTime >= TOTAL_DURATION) {
+            currentTime = TOTAL_DURATION;
+            playing = false;
+            return;
+          }
+          updateScene(currentTime);
+          requestAnimationFrame(tick);
+        }
+        tick();
+      }
+    });
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === ' ') {
+        e.preventDefault();
+        if (!playing) {
+          playing = true;
+          startTime = Date.now() - (currentTime * 1000);
+          function tick() {
+            currentTime = (Date.now() - startTime) / 1000;
+            if (currentTime >= TOTAL_DURATION) {
+              currentTime = TOTAL_DURATION;
+              playing = false;
+              return;
+            }
+            updateScene(currentTime);
+            requestAnimationFrame(tick);
+          }
+          tick();
+        } else {
+          playing = false;
+        }
+      }
+      if (e.key === 'r') {
+        currentTime = 0;
+        playing = false;
+        startTime = null;
+        updateScene(0);
+      }
+    });
+
+    // Auto-scale to fit viewport
+    function autoScale() {
+      const scaleX = window.innerWidth / 1920;
+      const scaleY = window.innerHeight / 1080;
+      const scale = Math.min(scaleX, scaleY);
+      document.body.style.transform = `scale(${scale})`;
+      // Center horizontally and vertically
+      const offsetX = (window.innerWidth - 1920 * scale) / 2;
+      const offsetY = (window.innerHeight - 1080 * scale) / 2;
+      document.body.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    }
+    autoScale();
+    window.addEventListener('resize', autoScale);
+
+    // Initial state
+    updateScene(0);
+  </script>
+</body>
+</html>

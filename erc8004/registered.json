@@ -1,0 +1,16 @@
+{
+  "agentId": "328",
+  "txHash": "0x59ec9dfcec9be37f3adeaf11f7e212ce364c44c905a0dcaaf3d42cade919bd5b",
+  "registry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
+  "agentRegistry": "eip155:11142220:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+  "network": "celo-sepolia",
+  "registeredAt": "2026-06-11T07:08:08.255Z",
+  "mainnet": {
+    "agentId": "9261",
+    "txHash": "0x26f5eba22f53f877ad030568798dc253841a221fad6549988b4780506634040c",
+    "registry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "agentRegistry": "eip155:42220:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "network": "celo-mainnet",
+    "registeredAt": "2026-06-11T08:33:49.892Z"
+  }
+}
